@@ -10,6 +10,7 @@ import pandas as pd
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app.title = 'Cambridge Uni COVID-19 Dashboard'
 server = app.server
 
 df_cases = pd.read_csv('./data/cases.csv')
@@ -195,7 +196,7 @@ app.layout = dbc.Container(className='mt-3', children=[
                  dbc.Row(
                      children=dbc.Col(
                          className='d-flex justify-content-center',
-                         children=html.A(href='https://github.com',
+                         children=html.A(href='https://github.com/fpervaiz/UniversityOfCambridge-COVID-19-Dashboard',
                                          target='_blank', children='GitHub'))
                  ),
                  dbc.Row(
@@ -208,5 +209,4 @@ app.layout = dbc.Container(className='mt-3', children=[
 ])
 
 if __name__ == '__main__':
-    app.title = 'Cambridge Uni COVID-19 Dashboard'
     app.run_server(debug=os.getenv('FLASK_ENV') == 'development')
