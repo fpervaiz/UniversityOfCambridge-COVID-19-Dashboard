@@ -10,6 +10,7 @@ import pandas as pd
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
 
 df_cases = pd.read_csv('./data/cases.csv')
 df_cases['week_ending'] = pd.to_datetime(
