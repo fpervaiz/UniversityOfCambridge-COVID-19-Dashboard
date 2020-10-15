@@ -9,8 +9,87 @@ import pandas as pd
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-app.title = 'Cambridge Uni COVID-19 Dashboard'
+app = dash.Dash(__name__, title='Cambridge Uni COVID-19 Dashboard', external_stylesheets=external_stylesheets, meta_tags=[
+    {
+        'name': 'title',
+        'content': 'University of Cambridge COVID-19 Dashboard'
+    },
+    {
+        'name': 'description',
+        'content': 'A simple dashboard for tracking weekly case and testing data from the University of Cambridge testing programmes for students and staff.'
+    },
+    {
+        'name': 'keywords',
+        'content': 'coronavirus, covid, university, cambridge, data, visualisation, dashboard'
+    },
+    {
+        'name': 'language',
+        'content': 'English',
+    },
+    {
+        'name': 'author',
+        'content': 'Faizaan Pervaiz'
+    },
+    # A tag that tells Internet Explorer (IE)
+    # to use the latest renderer version available
+    # to that browser (e.g. Edge)
+    {
+        'http-equiv': 'X-UA-Compatible',
+        'content': 'IE=edge'
+    },
+    # A tag that tells the browser not to scale
+    # desktop widths to fit mobile screens.
+    # Sets the width of the viewport (browser)
+    # to the width of the device, and the zoom level
+    # (initial scale) to 1.
+    #
+    # Necessary for "true" mobile support.
+    {
+        'name': 'viewport',
+        'content': 'width=device-width, initial-scale=1.0'
+    },
+    {
+        'property': 'og:type',
+        'content': 'website'
+    },
+    {
+        'property': 'og:url',
+        'content': 'http://camcovid.xyz'
+    },
+    {
+        'property': 'og:title',
+        'content': 'University of Cambridge COVID-19 Dashboard'
+    },
+    {
+        'property': 'og:description',
+        'content': 'A simple dashboard for tracking weekly case and testing data from the University of Cambridge testing programmes for students and staff.'
+    },
+    {
+        'property': 'og:image',
+        'content': 'http://camcovid.xyz/assets/sars-cov-2.jpg'
+    },
+    {
+        'property': 'twitter:card',
+        'content': 'summary_large_image'
+    },
+    {
+        'property': 'twitter:url',
+        'content': 'http://camcovid.xyz'
+    },
+    {
+        'property': 'twitter:title',
+        'content': 'University of Cambridge COVID-19 Dashboard'
+    },
+    {
+        'property': 'twitter:description',
+        'content': 'A simple dashboard for tracking weekly case and testing data from the University of Cambridge testing programmes for students and staff.'
+    },
+    {
+        'property': 'twitter:image',
+        'content': 'http://camcovid.xyz/assets/sars-cov-2.jpg'
+    }
+])
+
 server = app.server
 
 df_cases = pd.read_csv('./data/cases.csv')
@@ -204,6 +283,12 @@ app.layout = dbc.Container(className='mt-3', children=[
                          className='d-flex justify-content-center',
                          children=html.A(href='https://faizaanpervaiz.me',
                                          target='_blank', children='Faizaan Pervaiz'))
+                 ),
+                 dbc.Row(
+                     children=dbc.Col(
+                         className='d-flex justify-content-center',
+                         children=html.A(href='https://phil.cdc.gov/Details.aspx?pid=23311',
+                                         target='_blank', children='Image credits: CDC PHIL'))
                  )
              ])
 ])
