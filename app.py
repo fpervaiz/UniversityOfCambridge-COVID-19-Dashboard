@@ -2,6 +2,7 @@ import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_table as dtb
 import os
 import plotly.express as px
 import plotly.graph_objects as go
@@ -44,10 +45,10 @@ app = dash.Dash(__name__, title='Cambridge Uni COVID-19 Dashboard', external_sty
     # (initial scale) to 1.
     #
     # Necessary for "true" mobile support.
-    {
-        'name': 'viewport',
-        'content': 'width=device-width, initial-scale=1.0'
-    },
+    # {
+    #     'name': 'viewport',
+    #     'content': 'width=device-width, initial-scale=1.0'
+    # },
     {
         'property': 'og:type',
         'content': 'website'
@@ -126,9 +127,22 @@ fig_cases.update_layout(
     legend_title='Category',
 )
 
+df_colleges = pd.read_csv('./data/colleges.csv').rename(columns={
+    'college': 'College',
+    'positives': 'Number of students tested positive',
+    'isolating_households': 'Number of households isolating',
+    'isolating_students': 'Number of students isolating',
+    'last_updated': 'Last updated'
+})
+
+table_colleges = dtb.DataTable(
+    id='college-table',
+    columns=[{"name": i, "id": i} for i in df_colleges.columns],
+    data=df_colleges.to_dict('records'),
+    sort_action='native'
+)
+
 df_testing = pd.read_csv('./data/testing.csv')
-df_testing['week_ending'] = pd.to_datetime(
-    df_testing['week_ending'])
 
 fig_screening = go.Figure()
 fig_screening.add_trace(go.Scatter(x=df_testing['week_ending'], y=df_testing['asym_screened'],
@@ -249,6 +263,13 @@ app.layout = dbc.Container(className='mt-3', children=[
         id='cases-graph',
         figure=fig_cases
     ),
+
+    html.Div(className='my-5',
+             children=[
+                 html.H4(className='mb-3', children='College Breakdown'),
+                 table_colleges,
+             ]
+             ),
 
     dcc.Graph(
         id='test-screening-graph',
