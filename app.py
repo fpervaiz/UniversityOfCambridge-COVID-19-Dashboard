@@ -8,7 +8,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 
-external_stylesheets = [dbc.themes.BOOTSTRAP]
+external_stylesheets = [dbc.themes.BOOTSTRAP, '/assets/css/main.css']
 
 app = dash.Dash(__name__, title='Cambridge Uni COVID-19 Dashboard', external_stylesheets=external_stylesheets, meta_tags=[
     {
@@ -139,7 +139,8 @@ table_colleges = dtb.DataTable(
     id='college-table',
     columns=[{"name": i, "id": i} for i in df_colleges.columns],
     data=df_colleges.to_dict('records'),
-    sort_action='native'
+    sort_action='native',
+    style_table={'overflowX': 'auto'},
 )
 
 df_testing = pd.read_csv('./data/testing.csv')
@@ -233,7 +234,7 @@ fig_participation.update_layout(
     legend_title='Status',
 )
 
-app.layout = dbc.Container(className='my-3', children=[
+app.layout = dbc.Container(className='container my-5 px-5 pt-5 pb-3', children=[
     html.H1(children='University of Cambridge COVID-19 Dashboard'),
 
     html.Div(children='''
@@ -315,7 +316,7 @@ app.layout = dbc.Container(className='my-3', children=[
         ])
     ]),
 
-    html.Div(className='mt-4',
+    html.Div(className='mt-5',
              children=[
                  dbc.Row(
                      children=dbc.Col(
