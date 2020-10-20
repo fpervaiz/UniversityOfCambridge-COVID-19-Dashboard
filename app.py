@@ -143,6 +143,12 @@ table_colleges = dtb.DataTable(
 )
 
 df_testing = pd.read_csv('./data/testing.csv')
+df_testing['week_ending'] = pd.to_datetime(
+    df_testing['week_ending'])
+df_testing['total_screened'] = df_testing['asym_screened'] + \
+    df_testing['sym_screened']
+df_testing['total_positive'] = df_testing['asym_positive'] + \
+    df_testing['sym_positive']
 
 fig_screening = go.Figure()
 fig_screening.add_trace(go.Scatter(x=df_testing['week_ending'], y=df_testing['asym_screened'],
@@ -152,6 +158,10 @@ fig_screening.add_trace(go.Scatter(x=df_testing['week_ending'], y=df_testing['as
 fig_screening.add_trace(go.Scatter(x=df_testing['week_ending'], y=df_testing['sym_screened'],
                                    mode='lines+markers',
                                    name='Symptomatic',
+                                   ))
+fig_screening.add_trace(go.Scatter(x=df_testing['week_ending'], y=df_testing['total_screened'],
+                                   mode='lines+markers',
+                                   name='Total',
                                    ))
 
 fig_screening.update_layout(
@@ -170,9 +180,13 @@ fig_positives.add_trace(go.Scatter(x=df_testing['week_ending'], y=df_testing['sy
                                    mode='lines+markers',
                                    name='Symptomatic',
                                    ))
+fig_positives.add_trace(go.Scatter(x=df_testing['week_ending'], y=df_testing['total_positive'],
+                                   mode='lines+markers',
+                                   name='Total',
+                                   ))
 
 fig_positives.update_layout(
-    title=f'Weekly number of asymptomatic/symptomatic test positives',
+    title=f"Weekly Confirmed Cases (as of {df_testing.iloc[-1]['week_ending'].strftime('%Y-%m-%d')})",
     xaxis_title='Week Ending Date',
     yaxis_title='Number',
     legend_title='Test Type',
@@ -219,11 +233,11 @@ fig_participation.update_layout(
     legend_title='Status',
 )
 
-app.layout = dbc.Container(className='mt-3', children=[
+app.layout = dbc.Container(className='my-3', children=[
     html.H1(children='University of Cambridge COVID-19 Dashboard'),
 
     html.Div(children='''
-        Updated every Monday. Last update: 11 October 2020
+        Updated weekly. Last update: 20 October 2020
     '''),
 
     html.Div(children=[
@@ -242,22 +256,27 @@ app.layout = dbc.Container(className='mt-3', children=[
                  dbc.Row(
                      [
                          dbc.Col(html.Div('Total Confirmed Cases')),
-                         dbc.Col(html.Div('Total Student Cases')),
-                         dbc.Col(html.Div('Total Staff Cases')),
+                         dbc.Col(html.Div('Weekly Asymptomatic Tests')),
+                         dbc.Col(html.Div('Weekly Asymptomatic Positivity Rate')),
                      ]
                  ),
                  dbc.Row(
                      [
                          dbc.Col(html.Div(html.H5(
-                             f"{latest_cases['total_confirmed']} (+{latest_cases['total_confirmed'] - previous_cases['total_confirmed']})"))),
+                             f"{latest_cases['total_confirmed']} (+{latest_cases['week_confirmed']})"))),
                          dbc.Col(html.Div(html.H5(
-                             f"{latest_cases['student_confirmed']} (+{latest_cases['student_confirmed'] - previous_cases['student_confirmed']})"))),
+                             f"{df_testing.iloc[-1]['asym_screened']} (+{df_testing.iloc[-1]['asym_screened'] - df_testing.iloc[-2]['asym_screened']})"))),
                          dbc.Col(html.Div(html.H5(
-                             f"{latest_cases['staff_confirmed']} (+{latest_cases['staff_confirmed'] - previous_cases['staff_confirmed']})"))),
+                             f"{df_testing.iloc[-1]['asym_positive_rate']}% (+{round(df_testing.iloc[-1]['asym_positive_rate'] - df_testing.iloc[-2]['asym_positive_rate'], 1)}%)"))),
                      ]
                  ),
              ]
              ),
+
+    dcc.Graph(
+        id='test-positive-graph',
+        figure=fig_positives
+    ),
 
     dcc.Graph(
         id='cases-graph',
@@ -266,7 +285,7 @@ app.layout = dbc.Container(className='mt-3', children=[
 
     html.Div(className='my-5',
              children=[
-                 html.H4(className='mb-3', children='College Breakdown'),
+                 html.H4(className='mb-4', children='Breakdown by College'),
                  table_colleges,
              ]
              ),
@@ -274,11 +293,6 @@ app.layout = dbc.Container(className='mt-3', children=[
     dcc.Graph(
         id='test-screening-graph',
         figure=fig_screening
-    ),
-
-    dcc.Graph(
-        id='test-positive-graph',
-        figure=fig_positives
     ),
 
     dcc.Graph(
@@ -291,7 +305,17 @@ app.layout = dbc.Container(className='mt-3', children=[
         figure=fig_participation
     ),
 
-    html.Div(className='mt-4 mb-2',
+    html.Div(className='my-3', children=[
+        html.H4(className='mb-3', children='Notes'),
+        html.Ul([
+            html.Li([
+                html.Strong('20 October 2020: '),
+                'The University has stopped providing a breakdown of students and staff cases, therefore only the total number of cases is available from the week ending 18th October 2020.']
+            )
+        ])
+    ]),
+
+    html.Div(className='mt-4',
              children=[
                  dbc.Row(
                      children=dbc.Col(
