@@ -4,3 +4,6 @@ body {
 .container {
     background-color: white;
 }
+.dash-table-container .row {
+    margin: 0;
+  }

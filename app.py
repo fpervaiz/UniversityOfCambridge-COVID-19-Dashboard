@@ -132,12 +132,19 @@ df_colleges = pd.read_csv('./data/colleges.csv').rename(columns={
     'positives': 'Number of students tested positive',
     'isolating_households': 'Number of households isolating',
     'isolating_students': 'Number of students isolating',
-    'last_updated': 'Last updated'
+    'last_updated': 'Last updated',
+    'source_name': 'Source'
 })
+
+# Currently no sensible way of placing a hyperlink in a DataTable cell
+# so just use URL string for now
+df_colleges['Source'] = df_colleges.source_link.where(
+    df_colleges['source_link'].notna(), df_colleges.Source)
 
 table_colleges = dtb.DataTable(
     id='college-table',
-    columns=[{"name": i, "id": i} for i in df_colleges.columns],
+    columns=[{"name": i, "id": i}
+             for i in df_colleges.columns if i != 'source_link'],
     data=df_colleges.to_dict('records'),
     sort_action='native',
     style_table={'overflowX': 'auto'},

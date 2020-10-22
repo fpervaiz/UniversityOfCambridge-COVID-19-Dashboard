@@ -1,3 +1,4 @@
-college,positives,isolating_households,isolating_students,last_updated
-Churchill,?,3,23,2020-10-19
-Homerton,18,?,223,2020-10-19
+college,positives,isolating_households,isolating_students,last_updated,source_name,source_link
+Churchill,,3,23,2020-10-19,College Email,
+Downing,21,27,130,2020-10-22,Varsity,https://www.varsity.co.uk/news/20053
+Homerton,18,11+,223,2020-10-22,Varsity,https://www.varsity.co.uk/news/20028s
