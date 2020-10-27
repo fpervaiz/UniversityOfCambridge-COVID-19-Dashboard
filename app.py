@@ -245,6 +245,14 @@ fig_participation.update_layout(
     legend_title='Status',
 )
 
+
+def make_signed(n):
+    if n < 0:
+        return str(n)
+    else:
+        return '+' + str(n)
+
+
 app.layout = dbc.Container(className='container my-5 px-5 pt-5 pb-3', children=[
     html.H1(children='University of Cambridge COVID-19 Dashboard'),
 
@@ -275,11 +283,11 @@ app.layout = dbc.Container(className='container my-5 px-5 pt-5 pb-3', children=[
                  dbc.Row(
                      [
                          dbc.Col(html.Div(html.H5(
-                             f"{latest_cases['total_confirmed']} (+{latest_cases['week_confirmed']})"))),
+                             f"{latest_cases['total_confirmed']} ({make_signed(latest_cases['week_confirmed'])})"))),
                          dbc.Col(html.Div(html.H5(
-                             f"{df_testing.iloc[-1]['asym_screened']} (+{df_testing.iloc[-1]['asym_screened'] - df_testing.iloc[-2]['asym_screened']})"))),
+                             f"{df_testing.iloc[-1]['asym_screened']} ({make_signed(df_testing.iloc[-1]['asym_screened'] - df_testing.iloc[-2]['asym_screened'])})"))),
                          dbc.Col(html.Div(html.H5(
-                             f"{df_testing.iloc[-1]['asym_positive_rate']}% (+{round(df_testing.iloc[-1]['asym_positive_rate'] - df_testing.iloc[-2]['asym_positive_rate'], 1)}%)"))),
+                             f"{df_testing.iloc[-1]['asym_positive_rate']}% ({make_signed(round(df_testing.iloc[-1]['asym_positive_rate'] - df_testing.iloc[-2]['asym_positive_rate'], 1))}%)"))),
                      ]
                  ),
              ]
