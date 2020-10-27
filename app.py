@@ -156,7 +156,7 @@ df_testing['week_ending'] = pd.to_datetime(
 df_testing['total_screened'] = df_testing['asym_screened'] + \
     df_testing['sym_screened']
 df_testing['total_positive'] = df_testing['asym_positive'] + \
-    df_testing['sym_positive']
+    df_testing['sym_positive'] + df_testing['other_positive']
 
 fig_screening = go.Figure()
 fig_screening.add_trace(go.Scatter(x=df_testing['week_ending'], y=df_testing['asym_screened'],
@@ -187,6 +187,10 @@ fig_positives.add_trace(go.Scatter(x=df_testing['week_ending'], y=df_testing['as
 fig_positives.add_trace(go.Scatter(x=df_testing['week_ending'], y=df_testing['sym_positive'],
                                    mode='lines+markers',
                                    name='Symptomatic',
+                                   ))
+fig_positives.add_trace(go.Scatter(x=df_testing['week_ending'], y=df_testing['other_positive'],
+                                   mode='lines+markers',
+                                   name='Other (NHS/Targeted)',
                                    ))
 fig_positives.add_trace(go.Scatter(x=df_testing['week_ending'], y=df_testing['total_positive'],
                                    mode='lines+markers',
