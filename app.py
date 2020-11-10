@@ -257,7 +257,7 @@ app.layout = dbc.Container(className='container my-5 px-5 pt-5 pb-3', children=[
     html.H1(children='University of Cambridge COVID-19 Dashboard'),
 
     html.Div(children='''
-        Updated weekly. Last update: 03 November 2020
+        Updated weekly. Last update: 10 November 2020
     '''),
 
     html.Div(children=[
