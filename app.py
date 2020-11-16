@@ -303,12 +303,12 @@ app.layout = dbc.Container(className='container my-5 px-5 pt-5 pb-3', children=[
         figure=fig_cases
     ),
 
-    html.Div(className='my-5',
-             children=[
-                 html.H4(className='mb-4', children='Breakdown by College'),
-                 table_colleges,
-             ]
-             ),
+    # html.Div(className='my-5',
+    #          children=[
+    #              html.H4(className='mb-4', children='Breakdown by College'),
+    #              table_colleges,
+    #          ]
+    #          ),
 
     dcc.Graph(
         id='test-screening-graph',
