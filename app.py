@@ -257,7 +257,7 @@ app.layout = dbc.Container(className='container my-5 px-5 pt-5 pb-3', children=[
     html.H1(children='University of Cambridge COVID-19 Dashboard'),
 
     html.Div(children='''
-        Updated weekly. Last update: 30 November 2020
+        Updated weekly. Last update: 08 December 2020
     '''),
 
     html.Div(children=[
@@ -287,7 +287,7 @@ app.layout = dbc.Container(className='container my-5 px-5 pt-5 pb-3', children=[
                          dbc.Col(html.Div(html.H5(
                              f"{df_testing.iloc[-1]['asym_screened']} ({make_signed(df_testing.iloc[-1]['asym_screened'] - df_testing.iloc[-2]['asym_screened'])})"))),
                          dbc.Col(html.Div(html.H5(
-                             f"{df_testing.iloc[-1]['asym_positive_rate']}% ({make_signed(round(df_testing.iloc[-1]['asym_positive_rate'] - df_testing.iloc[-2]['asym_positive_rate'], 1))}%)"))),
+                             f"{df_testing.iloc[-1]['asym_positive_rate']}% ({make_signed(round(df_testing.iloc[-1]['asym_positive_rate'] - df_testing.iloc[-2]['asym_positive_rate'], 2))}%)"))),
                      ]
                  ),
              ]
