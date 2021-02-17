@@ -1,6 +1,6 @@
 # University Of Cambridge COVID-19 Dashboard
 
-## Website: [camcovid.xyz](https://www.camcovid.xyz)
+## Website: [camcovid.xyz](http://www.camcovid.xyz)
 
 ## Description
 
